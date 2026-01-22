@@ -1,15 +1,24 @@
-import { BrowserRouter, Routes, Route } from 'react-router-dom'
-import { ROUTES } from '@/constants'
+import { BrowserRouter, Routes, Route, Navigate } from 'react-router-dom'
+import { Accounts, Roles } from './pages/index'
+import Adminlayout from './layouts/Adminlayout'
+import { ThemeProvider } from './context/ThemeContext'
 import './App.css'
 
 function App() {
   return (
-    <BrowserRouter>
-      <Routes>
-        <Route path={ROUTES.HOME} element={<div>Home Page</div>} />
-        <Route path={ROUTES.LOGIN} element={<div>Login Page</div>} />
-      </Routes>
-    </BrowserRouter>
+    <ThemeProvider>
+      <BrowserRouter>
+        <Routes>
+          <Route path="/" element={<Navigate to="/admin/roles"/>}/>
+
+          <Route path="/admin" element={<Adminlayout/>}>
+            <Route path="roles" element={<Roles/>}/>
+            <Route path="accounts" element={<Accounts/>}/>
+          </Route>
+        </Routes>
+      </BrowserRouter>
+    </ThemeProvider>
+    
   )
 }
 
