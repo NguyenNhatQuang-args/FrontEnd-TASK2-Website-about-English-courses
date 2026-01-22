@@ -1,9 +1,9 @@
 import { useState } from 'react';
-import './SentencesBuilder.css';
+import './SentenceBuilder.css';
 
 type Word = {
   id: number;
-  text: string;
+  text: string; 
 };
 
 const initialWords: Word[] = [

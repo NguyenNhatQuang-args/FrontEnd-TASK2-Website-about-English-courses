@@ -1,15 +1,30 @@
 import { BrowserRouter, Routes, Route } from 'react-router-dom'
-import { ROUTES } from './constants'
-import SentenceBuilder from './features/sentences-builder/SentencesBuilder';
-import './App.css'
+import { ROUTES } from '@/constants'
+import {
+  UserPage,
+  SentenceBuilderPage,
+  WorkBankPage,
+} from '@/pages'
 
 function App() {
   return (
     <BrowserRouter>
       <Routes>
-        <SentenceBuilder />
-        <Route path={ROUTES.HOME} element={<div>Home Page</div>} />
-        <Route path={ROUTES.LOGIN} element={<div>Login Page</div>} />
+        {/* public */}
+        <Route path={ROUTES.HOME} element={<div>Home</div>} />
+        <Route path={ROUTES.LOGIN} element={<div>Login</div>} />
+
+        {/* user */}
+        <Route path={ROUTES.USER} element={<UserPage />}>
+          <Route
+            path="lessons/:lessonId/sentence-builder"
+            element={<SentenceBuilderPage />}
+          />
+          <Route
+            path="lessons/:lessonId/work-bank"
+            element={<WorkBankPage />}
+          />
+        </Route>
       </Routes>
     </BrowserRouter>
   )
