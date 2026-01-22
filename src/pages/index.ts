@@ -1,4 +1,5 @@
 // Export all pages from here
-// Example:
-// export { default as HomePage } from './HomePage';
-// export { default as AboutPage } from './AboutPage';
+export { default as LoginPage } from './LoginPage';
+export { default as MyCoursesPage } from './MyCoursesPage';
+export { default as LessonsPage } from './LessonsPage';
+export { default as ExercisePage } from './ExercisePage';
