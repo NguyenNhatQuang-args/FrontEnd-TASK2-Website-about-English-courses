@@ -9,12 +9,10 @@ const { Text } = Typography;
 type MenuItem = Required<MenuProps>['items'][number];
 
 const items: MenuItem[] = [
-    {
-        key:"/admin/roles", label: "Quyền",
-    },
-    {
-        key:"/admin/accounts", label:"Tài Khoản",
-    }
+    { key: "/admin/roles", label: "Quyền" },
+    { key: "/admin/accounts", label: "Tài khoản" },
+    { key: "/admin/courses", label: "Khóa học" },
+    { key: "/admin/classes", label: "Lớp học" },
 ];
 
 const SidebarAdmin: React.FC = () => {

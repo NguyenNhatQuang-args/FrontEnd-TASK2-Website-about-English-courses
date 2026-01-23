@@ -1,5 +1,5 @@
 import { BrowserRouter, Routes, Route, Navigate } from 'react-router-dom'
-import { Accounts, Roles } from './pages/index'
+import { Accounts, Roles, Courses, Classes } from './pages/index';
 import Adminlayout from './layouts/Adminlayout'
 import { ThemeProvider } from './context/ThemeContext'
 import './App.css'
@@ -14,6 +14,8 @@ function App() {
           <Route path="/admin" element={<Adminlayout/>}>
             <Route path="roles" element={<Roles/>}/>
             <Route path="accounts" element={<Accounts/>}/>
+            <Route path="courses" element={<Courses />} />
+            <Route path="classes" element={<Classes />} />
           </Route>
         </Routes>
       </BrowserRouter>
