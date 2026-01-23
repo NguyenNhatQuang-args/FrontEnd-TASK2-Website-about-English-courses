@@ -13,7 +13,7 @@ import {
   Card,
 } from "antd";
 import type { ColumnsType } from "antd/es/table";
-import styles from "../styles/Roles.module.css";
+import styles from "@/styles/Roles.module.css";
 
 interface Permission {
   id: number;

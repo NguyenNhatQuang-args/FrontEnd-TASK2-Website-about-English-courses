@@ -65,6 +65,7 @@ const HeaderAdmin: React.FC = () => {
             <Dropdown menu={{items: menuItems}} trigger={['click']}>
                 <Avatar
                     icon={<UserOutlined/>}
+                    className={styles.avartar}
                 />
             </Dropdown>
         </div>

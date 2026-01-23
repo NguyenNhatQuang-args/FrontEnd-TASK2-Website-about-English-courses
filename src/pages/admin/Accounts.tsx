@@ -14,7 +14,7 @@ import {
   Card,
 } from "antd";
 import type { ColumnsType } from "antd/es/table";
-import styles from "../styles/Accounts.module.css";
+import styles from "@/styles/Accounts.module.css";
 
 type UserRole = "ADMIN" | "TEACHER" | "STUDENT";
 type UserStatus = "ACTIVE" | "INACTIVE";

@@ -73,6 +73,9 @@ export const ThemeProvider: React.FC<{ children: React.ReactNode }> = ({ childre
 
             Menu:
             {
+                darkSubMenuItemBg: darkMode
+                  ? COLORS.primary.dark
+                  : COLORS.primary.light,
                 darkItemBg: darkMode
                     ? COLORS.primary.dark
                     : COLORS.primary.light,
@@ -87,7 +90,8 @@ export const ThemeProvider: React.FC<{ children: React.ReactNode }> = ({ childre
                 darkItemSelectedColor:darkMode
                     ? COLORS.neutral.white
                     : COLORS.neutral.black,
-                    
+                itemBorderRadius: 8 ,
+            
             }
           }
         }}

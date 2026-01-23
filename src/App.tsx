@@ -1,28 +1,29 @@
-import { BrowserRouter, Routes, Route, Navigate } from "react-router-dom";
-import AdminLayout from "./Layouts/AdimLayout";
+import { BrowserRouter, Routes, Route, Navigate } from 'react-router-dom'
+import { Accounts, Roles, Classes, Courses, LessonDetails, Lessons} from './pages/index'
+import Adminlayout from '@/layouts/AdimLayout'
+import { ThemeProvider } from './context/ThemeContext'
+import './App.css'
 
-import LessonList from "./pages/admin/lessons/LessonList";
-import LessonCreate from "./pages/admin/lessons/lessonCreate";
-import LessonDetail from "./pages/admin/lessons/LessonDetail";
-import LessonEdit from "./pages/admin/lessons/LessonEdit";
-
-const App = () => {
+function App() {
   return (
-    <BrowserRouter>
-      <Routes>
-        <Route path="/" element={<Navigate to="/admin/lessons" replace />} />
+    <ThemeProvider>
+      <BrowserRouter>
+        <Routes>
+          <Route path="/" element={<Navigate to="/admin/roles"/>}/>
 
-        <Route path="/admin" element={<AdminLayout />}>
-          <Route path="lessons" element={<LessonList />} />
-          <Route path="lessons/create" element={<LessonCreate />} />
-          <Route path="lessons/:id" element={<LessonDetail />} />
-          <Route path="lessons/edit/:id" element={<LessonEdit />} />
-        </Route>
+          <Route path="/admin" element={<Adminlayout/>}>
+            <Route path="roles" element={<Roles/>}/>
+            <Route path="accounts" element={<Accounts/>}/>
+            <Route path="courses" element={<Courses/>}/>
+            <Route path="classes" element={<Classes/>}/>
+            <Route path="lessons" element={<Lessons/>}/>
+            <Route path="lessondetails" element={<LessonDetails/>}/>
+          </Route>
+        </Routes>
+      </BrowserRouter>
+    </ThemeProvider>
+    
+  )
+}
 
-        <Route path="*" element={<h2 style={{ padding: 20 }}>404 - Không tìm thấy trang</h2>} />
-      </Routes>
-    </BrowserRouter>
-  );
-};
-
-export default App;
+export default App

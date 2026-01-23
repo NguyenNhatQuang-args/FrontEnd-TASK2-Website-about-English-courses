@@ -1,32 +1,31 @@
-import { Link, Outlet } from "react-router-dom";
-import "../styles/admin.css";
+import { Layout } from "antd";
+import { Outlet } from "react-router-dom";
 
-const AdminLayout = () => {
-  return (
-    <div className="admin-layout">
-      <aside className="admin-sidebar">
-        <div className="logo">🎯 Quản trị</div>
+import HeaderAdmin from "@/components/HeaderAdmin";
+import SidebarAdmin from "@/components/SidebarAdmin";
+const { Header, Sider, Content } = Layout;
 
-        <nav className="admin-menu">
-          <Link className="admin-link" to="/admin/lessons">
-            📚 Quản lý bài học
-          </Link>
 
-          <Link className="admin-link" to="/admin/lessons/create">
-            ➕ Thêm bài học
-          </Link>
-        </nav>
-      </aside>
 
-      <div className="admin-main">
-        <div className="admin-header">
-          <h1 className="admin-title">Admin Dashboard</h1>
-        </div>
+const Adminlayout = () => {
 
-        <Outlet />
-      </div>
-    </div>
-  );
-};
+    return (
+        <Layout>
+            <Sider>
+                <SidebarAdmin/>
+            </Sider>
 
-export default AdminLayout;
+            <Layout>
+                <Header>
+                    <HeaderAdmin/>
+                </Header>
+                <Content>
+                    <Outlet></Outlet>
+                </Content>
+                
+            </Layout>
+        </Layout>
+    )
+}
+
+export default Adminlayout;
