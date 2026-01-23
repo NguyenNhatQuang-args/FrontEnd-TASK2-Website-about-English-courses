@@ -5,13 +5,13 @@ import { LoginPage, MyCoursesPage, LessonsPage, ExercisePage } from '@/pages';
 const App = () => (
   <BrowserRouter>
     <Routes>
-      <Route path="/" element={<Navigate to={ROUTES.login} />} />
-      <Route path={ROUTES.login} element={<LoginPage />} />
-      <Route path={ROUTES.myCourses} element={<MyCoursesPage />} />
-      <Route path="/courses/:courseId" element={<LessonsPage />} />
-      <Route path="/lessons/:lessonId" element={<ExercisePage />} />
-      <Route path="*" element={<div className="flex h-screen items-center justify-center">404 - Trang không tồn tại</div>} />
+      <Route path={ROUTES.HOME} element={<Navigate to={ROUTES.DASHBOARD} />} />
+      <Route path={ROUTES.LOGIN} element={<LoginPage />} />
+      <Route path={ROUTES.DASHBOARD} element={<MyCoursesPage />} />
+      <Route path={ROUTES.LESSONS} element={<LessonsPage />} />
+      <Route path={ROUTES.EXERCISE} element={<ExercisePage />} />
     </Routes>
   </BrowserRouter>
 );
+
 export default App;
