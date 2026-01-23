@@ -1,6 +1,6 @@
 import { BrowserRouter, Routes, Route, Navigate } from 'react-router-dom'
 import { Accounts, Roles, Classes, Courses, LessonDetails, Lessons} from './pages/index'
-import Adminlayout from '@/layouts/AdimLayout'
+import Adminlayout from '@/layouts/Adminlayout'
 import { ThemeProvider } from './context/ThemeContext'
 import './App.css'
 
