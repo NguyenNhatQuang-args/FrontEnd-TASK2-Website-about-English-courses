@@ -23,12 +23,23 @@ const QUESTIONS: Question[] = [
 export default function WorkBank() {
   const [currentIndex, setCurrentIndex] = useState(0)
   const [selectedWords, setSelectedWords] = useState<string[]>([])
+  const [availableWords, setAvailableWords] = useState<string[]>(
+    QUESTIONS[0].words
+  )
   const [isFinished, setIsFinished] = useState(false)
 
   const currentQuestion = QUESTIONS[currentIndex]
 
+  // chọn từ: dưới -> trên
   const handleSelectWord = (word: string) => {
     setSelectedWords(prev => [...prev, word])
+    setAvailableWords(prev => prev.filter(w => w !== word))
+  }
+
+  // gỡ từ: trên -> dưới
+  const handleRemoveWord = (word: string) => {
+    setSelectedWords(prev => prev.filter(w => w !== word))
+    setAvailableWords(prev => [...prev, word])
   }
 
   const handleCheck = () => {
@@ -38,8 +49,10 @@ export default function WorkBank() {
       alert('✅ Correct!')
 
       if (currentIndex < QUESTIONS.length - 1) {
-        setCurrentIndex(prev => prev + 1)
+        const nextIndex = currentIndex + 1
+        setCurrentIndex(nextIndex)
         setSelectedWords([])
+        setAvailableWords(QUESTIONS[nextIndex].words)
       } else {
         setIsFinished(true)
       }
@@ -58,12 +71,18 @@ export default function WorkBank() {
         Question {currentIndex + 1}/{QUESTIONS.length}
       </h2>
 
+      {/* Hàng trên: câu trả lời */}
       <div className="answer-box">
-        {selectedWords.join(' ')}
+        {selectedWords.map(word => (
+          <button key={word} onClick={() => handleRemoveWord(word)}>
+            {word}
+          </button>
+        ))}
       </div>
 
+      {/* Hàng dưới: danh sách từ */}
       <div className="word-list">
-        {currentQuestion.words.map(word => (
+        {availableWords.map(word => (
           <button key={word} onClick={() => handleSelectWord(word)}>
             {word}
           </button>
