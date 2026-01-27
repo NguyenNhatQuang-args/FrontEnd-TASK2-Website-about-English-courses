@@ -23,7 +23,7 @@ import {
   CheckCircle,
   UserPlus,
 } from 'lucide-react';
-import { authService } from '@/api';
+import { useAuth } from '@/context/AuthContext';
 import '@/styles/Login.css';
 
 // Form mode type
@@ -42,6 +42,7 @@ interface RegisterFormData {
 
 const Login = () => {
   const navigate = useNavigate();
+  const { login, register, getDefaultRoute, isLoading: authLoading } = useAuth();
   
   // Form mode state
   const [formMode, setFormMode] = useState<FormMode>('login');
@@ -186,16 +187,8 @@ const Login = () => {
     setIsLoading(true);
 
     try {
-      const response = await authService.login({ username: username.trim(), password });
+      await login(username.trim(), password);
       
-      // Save tokens
-      authService.saveTokens(response.data.accessToken, response.data.refreshToken);
-      
-      // Save user data
-      if (response.data.user) {
-        authService.saveUser(response.data.user);
-      }
-
       // Remember me - save username
       if (rememberMe) {
         localStorage.setItem('rememberedUsername', username.trim());
@@ -203,25 +196,14 @@ const Login = () => {
         localStorage.removeItem('rememberedUsername');
       }
 
-      // Navigate to dashboard or home
-      navigate('/');
+      // Navigate to appropriate dashboard based on role
+      navigate(getDefaultRoute());
     } catch (err: unknown) {
       console.error('Login error:', err);
       
       // Handle different error types
-      if (err && typeof err === 'object' && 'response' in err) {
-        const axiosError = err as { response?: { data?: { message?: string }; status?: number } };
-        if (axiosError.response?.data?.message) {
-          setError(axiosError.response.data.message);
-        } else if (axiosError.response?.status === 401) {
-          setError('Tên đăng nhập hoặc mật khẩu không chính xác');
-        } else if (axiosError.response?.status === 400) {
-          setError('Thông tin đăng nhập không hợp lệ');
-        } else {
-          setError('Đã xảy ra lỗi. Vui lòng thử lại sau');
-        }
-      } else if (err && typeof err === 'object' && 'request' in err) {
-        setError('Không thể kết nối đến máy chủ. Vui lòng kiểm tra kết nối mạng');
+      if (err && typeof err === 'object' && 'message' in err) {
+        setError((err as Error).message);
       } else {
         setError('Đã xảy ra lỗi. Vui lòng thử lại sau');
       }
@@ -289,7 +271,7 @@ const Login = () => {
     setIsLoading(true);
 
     try {
-      await authService.register({
+      await register({
         username: registerData.username.trim(),
         fullname: registerData.fullname.trim(),
         phone: registerData.phone.trim(),
@@ -298,42 +280,14 @@ const Login = () => {
         password: registerData.password,
       });
 
-      // Show success message and switch to login
-      setSuccessMessage('Đăng ký thành công! Vui lòng đăng nhập.');
-      setUsername(registerData.username);
-      setRegisterData({
-        username: '',
-        fullname: '',
-        phone: '',
-        email: '',
-        dateOfBirth: '',
-        password: '',
-        confirmPassword: '',
-      });
-      
-      // Auto switch to login after 2 seconds
-      setTimeout(() => {
-        setFormMode('login');
-        setSuccessMessage(null);
-      }, 2000);
+      // Registration successful - navigate to dashboard
+      navigate(getDefaultRoute());
       
     } catch (err: unknown) {
       console.error('Register error:', err);
       
-      if (err && typeof err === 'object' && 'response' in err) {
-        const axiosError = err as { response?: { data?: { message?: string | string[] }; status?: number } };
-        if (axiosError.response?.data?.message) {
-          const message = axiosError.response.data.message;
-          setError(Array.isArray(message) ? message[0] : message);
-        } else if (axiosError.response?.status === 409) {
-          setError('Tên đăng nhập hoặc email đã tồn tại');
-        } else if (axiosError.response?.status === 400) {
-          setError('Thông tin đăng ký không hợp lệ');
-        } else {
-          setError('Đã xảy ra lỗi. Vui lòng thử lại sau');
-        }
-      } else if (err && typeof err === 'object' && 'request' in err) {
-        setError('Không thể kết nối đến máy chủ. Vui lòng kiểm tra kết nối mạng');
+      if (err && typeof err === 'object' && 'message' in err) {
+        setError((err as Error).message);
       } else {
         setError('Đã xảy ra lỗi. Vui lòng thử lại sau');
       }
