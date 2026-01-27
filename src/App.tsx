@@ -10,8 +10,9 @@ function App() {
     <ThemeProvider>
       <BrowserRouter>
         <Routes>
+          <Route path="/login" element={<Login />} />
           <Route path="/" element={<Navigate to="/admin/roles"/>}/>
-
+          
           <Route path="/admin" element={<Adminlayout/>}>
             <Route path="roles" element={<Roles/>}/>
             <Route path="accounts" element={<Accounts/>}/>
@@ -20,7 +21,7 @@ function App() {
             <Route path="lessons" element={<Lessons/>}/>
             <Route path="lessondetails" element={<LessonDetails/>}/>
           </Route>
-          <Route path="/login" element={<Login />} />
+          
         </Routes>
         
       </BrowserRouter>
