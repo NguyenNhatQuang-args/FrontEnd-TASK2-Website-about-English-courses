@@ -1,83 +1,157 @@
-import { BrowserRouter, Routes, Route, Navigate } from "react-router-dom";
-import { AuthProvider, useAuth } from "./contexts/AuthContext";
-import { ThemeProvider } from "./themes";
-import { ProtectedRoute, getDefaultRouteForRole } from "./components";
-import { AdminLayout, TeacherLayout, UserLayout } from "./layouts";
-import { LoginPage } from "./pages/auth";
-import { AdminDashboard } from "./pages/admin";
-import { TeacherDashboard } from "./pages/teacher";
-import { UserHome } from "./pages/user";
-import { ComingSoon } from "./pages/shared";
-import "./styles/index.css";
+import { BrowserRouter, Routes, Route, Navigate } from 'react-router-dom';
+import { ThemeProvider } from './context/ThemeContext';
+import { AuthProvider } from './context/AuthContext';
+import { ProtectedRoute, PublicRoute, RoleBasedRedirect } from './components/ProtectedRoute';
+import { ROUTES, USER_ROLES } from '@/constants';
 
-function RoleBasedRedirect() {
-  const { isAuthenticated, user, isLoading } = useAuth();
+// Layouts
+import Adminlayout from '@/layouts/Adminlayout';
+import UserLayout from '@/layouts/UserLayout';
 
-  if (isLoading) {
-    return <div className="loading-container">Đang tải...</div>;
-  }
+// Pages
+import { 
+  Login,
+  // Admin pages
+  Roles, 
+  Accounts, 
+  Courses, 
+  Classes, 
+  Lessons, 
+  LessonDetails,
+  // User pages
+  UserPage,
+  SentenceBuilderPage,
+  WorkBankPage,
+  // Legacy pages
+  MyCoursesPage,
+  LessonsPage,
+  ExercisePage,
+} from '@/pages';
 
-  if (!isAuthenticated) {
-    return <Navigate to="/login" replace />;
-  }
+// Admin Dashboard placeholder
+const AdminDashboard = () => (
+  <div className="p-6">
+    <h1 className="text-2xl font-bold mb-4">Admin Dashboard</h1>
+    <p>Chào mừng đến trang quản trị!</p>
+  </div>
+);
 
-  return <Navigate to={getDefaultRouteForRole(user!.role)} replace />;
-}
+// Teacher Dashboard placeholder
+const TeacherDashboard = () => (
+  <div className="p-6">
+    <h1 className="text-2xl font-bold mb-4">Teacher Dashboard</h1>
+    <p>Chào mừng giáo viên!</p>
+  </div>
+);
 
-function RouterApp() {
+// User Dashboard placeholder
+const UserDashboard = () => (
+  <div className="p-6">
+    <h1 className="text-2xl font-bold mb-4">Dashboard</h1>
+    <p>Chào mừng học sinh!</p>
+  </div>
+);
+
+// Permissions page placeholder
+const Permissions = () => (
+  <div className="p-6">
+    <h1 className="text-2xl font-bold mb-4">Quản lý quyền</h1>
+    <p>Danh sách quyền hạn</p>
+  </div>
+);
+
+import './App.css';
+
+function App() {
   return (
-    <Routes>
-      <Route path="/login" element={<LoginPage />} />
-      <Route path="/" element={<RoleBasedRedirect />} />
+    <ThemeProvider>
+      <AuthProvider>
+        <BrowserRouter>
+          <Routes>
+            {/* ========== PUBLIC ROUTES ========== */}
+            <Route 
+              path={ROUTES.LOGIN} 
+              element={
+                <PublicRoute>
+                  <Login />
+                </PublicRoute>
+              } 
+            />
+            <Route 
+              path={ROUTES.REGISTER} 
+              element={
+                <PublicRoute>
+                  <Login />
+                </PublicRoute>
+              } 
+            />
 
-      <Route element={<ProtectedRoute allowedRoles={["admin"]} />}>
-        <Route element={<AdminLayout />}>
-          <Route path="/admin/dashboard" element={<AdminDashboard />} />
-          <Route path="/admin/users" element={<ComingSoon title="Quản lý Users" />} />
-          <Route path="/admin/roles" element={<ComingSoon title="Quản lý Roles" />} />
-          <Route path="/admin/permissions" element={<ComingSoon title="Permissions" />} />
-          <Route path="/admin/lessons" element={<ComingSoon title="Quản lý Lessons" />} />
-          <Route path="/admin/courses" element={<ComingSoon title="Quản lý Courses" />} />
-        </Route>
-      </Route>
+            {/* ========== ROOT REDIRECT ========== */}
+            <Route path={ROUTES.HOME} element={<RoleBasedRedirect />} />
 
-      <Route element={<ProtectedRoute allowedRoles={["admin", "teacher"]} />}>
-        <Route element={<TeacherLayout />}>
-          <Route path="/teacher/dashboard" element={<TeacherDashboard />} />
-          <Route path="/teacher/lessons" element={<ComingSoon title="Bài giảng của tôi" />} />
-          <Route path="/teacher/lessons/create" element={<ComingSoon title="Tạo bài giảng" />} />
-          <Route path="/teacher/courses" element={<ComingSoon title="Khóa học của tôi" />} />
-          <Route path="/teacher/students" element={<ComingSoon title="Học viên" />} />
-        </Route>
-      </Route>
+            {/* ========== ADMIN ROUTES ========== */}
+            <Route
+              path={ROUTES.ADMIN}
+              element={
+                <ProtectedRoute allowedRoles={[USER_ROLES.ADMIN]}>
+                  <Adminlayout />
+                </ProtectedRoute>
+              }
+            >
+              <Route index element={<Navigate to="dashboard" replace />} />
+              <Route path="dashboard" element={<AdminDashboard />} />
+              <Route path="roles" element={<Roles />} />
+              <Route path="permissions" element={<Permissions />} />
+              <Route path="accounts" element={<Accounts />} />
+              <Route path="courses" element={<Courses />} />
+              <Route path="classes" element={<Classes />} />
+              <Route path="lessons" element={<Lessons />} />
+              <Route path="lessons/:lessonId" element={<LessonDetails />} />
+            </Route>
 
-      <Route element={<ProtectedRoute allowedRoles={["admin", "teacher", "user"]} />}>
-        <Route element={<UserLayout />}>
-          <Route path="/home" element={<UserHome />} />
-          <Route path="/courses" element={<ComingSoon title="Danh sách khóa học" />} />
-          <Route path="/my-courses" element={<ComingSoon title="Khóa học của tôi" />} />
-          <Route path="/profile" element={<ComingSoon title="Hồ sơ cá nhân" />} />
-        </Route>
-      </Route>
+            {/* ========== TEACHER ROUTES ========== */}
+            <Route
+              path={ROUTES.TEACHER}
+              element={
+                <ProtectedRoute allowedRoles={[USER_ROLES.TEACHER, USER_ROLES.ADMIN]}>
+                  <Adminlayout />
+                </ProtectedRoute>
+              }
+            >
+              <Route index element={<Navigate to="dashboard" replace />} />
+              <Route path="dashboard" element={<TeacherDashboard />} />
+              <Route path="courses" element={<Courses />} />
+              <Route path="classes" element={<Classes />} />
+              <Route path="lessons" element={<Lessons />} />
+              <Route path="lessons/:lessonId" element={<LessonDetails />} />
+            </Route>
 
-      <Route path="*" element={
-        <div className="error-page">
-          <h1>404</h1>
-          <p>Không tìm thấy trang</p>
-        </div>
-      } />
-    </Routes>
+            {/* ========== USER/STUDENT ROUTES ========== */}
+            <Route
+              path={ROUTES.USER}
+              element={
+                <ProtectedRoute allowedRoles={[USER_ROLES.STUDENT, USER_ROLES.TEACHER, USER_ROLES.ADMIN]}>
+                  <UserLayout />
+                </ProtectedRoute>
+              }
+            >
+              <Route index element={<Navigate to="dashboard" replace />} />
+              <Route path="dashboard" element={<UserDashboard />} />
+              <Route path="profile" element={<div>Profile Page</div>} />
+              <Route path="courses" element={<MyCoursesPage />} />
+              <Route path="courses/:courseId/lessons" element={<LessonsPage />} />
+              <Route path="lessons/:lessonId/exercises" element={<ExercisePage />} />
+              <Route path="lessons/:lessonId/sentence-builder" element={<SentenceBuilderPage />} />
+              <Route path="lessons/:lessonId/work-bank" element={<WorkBankPage />} />
+            </Route>
+
+            {/* ========== CATCH ALL - 404 ========== */}
+            <Route path="*" element={<Navigate to={ROUTES.HOME} replace />} />
+          </Routes>
+        </BrowserRouter>
+      </AuthProvider>
+    </ThemeProvider>
   );
 }
 
-export default function App() {
-  return (
-    <BrowserRouter>
-      <ThemeProvider>
-        <AuthProvider>
-          <RouterApp />
-        </AuthProvider>
-      </ThemeProvider>
-    </BrowserRouter>
-  );
-}
+export default App;

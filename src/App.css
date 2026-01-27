@@ -5,3 +5,10 @@
   padding: 0;
   max-width: none;
 }
+@media (max-width: 600px) {
+  button {
+    font-size: 14px !important;
+    padding: 8px 12px !important;
+  }
+  h2 { font-size: 1.2rem; }
+}
