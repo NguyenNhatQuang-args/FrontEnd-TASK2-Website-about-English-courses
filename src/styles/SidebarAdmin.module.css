@@ -1,0 +1,15 @@
+.title
+{
+    padding: 12px 20px;
+    font-size: 30px;
+}
+.container
+{
+    border: 1px;
+    box-shadow: 1px 0px 1px;
+}
+.menu
+{   
+    
+    box-shadow: 1px 1px 2px 1px;
+}
