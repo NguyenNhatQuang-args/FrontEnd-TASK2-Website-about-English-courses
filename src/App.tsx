@@ -2,6 +2,7 @@ import { BrowserRouter, Routes, Route, Navigate } from 'react-router-dom'
 import { Accounts, Roles, Classes, Courses, LessonDetails, Lessons} from './pages/index'
 import Adminlayout from '@/layouts/Adminlayout'
 import { ThemeProvider } from './context/ThemeContext'
+import { Login } from '@/pages'
 import './App.css'
 
 function App() {
@@ -19,10 +20,11 @@ function App() {
             <Route path="lessons" element={<Lessons/>}/>
             <Route path="lessondetails" element={<LessonDetails/>}/>
           </Route>
+          <Route path="/login" element={<Login />} />
         </Routes>
+        
       </BrowserRouter>
     </ThemeProvider>
-    
   )
 }
 

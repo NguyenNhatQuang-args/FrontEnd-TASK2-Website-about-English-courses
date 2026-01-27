@@ -9,3 +9,4 @@ export { default as Courses } from "./admin/Courses";
 export { default as Classes } from "./admin/Classes";
 export { default as LessonDetails } from "./admin/lessons/LessonDetails";
 export { default as Lessons } from "./admin/lessons/Lessons";
+export { Login } from './Login';
