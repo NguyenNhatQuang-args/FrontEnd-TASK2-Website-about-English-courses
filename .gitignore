@@ -54,9 +54,6 @@ temp/
 Thumbs.db
 .DS_Store
 
-package.json
-package-lock.json
 # Package manager lock files (keep one)
-# package-lock.json
 # yarn.lock
 # pnpm-lock.yaml

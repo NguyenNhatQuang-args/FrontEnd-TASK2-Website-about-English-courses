@@ -3,18 +3,17 @@ import { useAuth } from "../contexts/AuthContext";
 import { useTheme } from "../themes";
 import {
   DashboardIcon,
-  UsersIcon,
-  ShieldIcon,
-  LockIcon,
   BookIcon,
   GraduationIcon,
+  UsersIcon,
+  PlusIcon,
   UserIcon,
   SunIcon,
   MoonIcon,
   LogoutIcon,
 } from "../assets/icons";
 
-export default function AdminLayout() {
+export default function TeacherLayout() {
   const { user, logout } = useAuth();
   const { themeMode, toggleTheme } = useTheme();
   const navigate = useNavigate();
@@ -29,72 +28,64 @@ export default function AdminLayout() {
 
   return (
     <div className="sidebar-layout">
-      <aside className="sidebar">
+      <aside className="sidebar" style={{ backgroundColor: "#16213e" }}>
         <div className="sidebar-logo">
           <h2>
-            <img src={ShieldIcon} alt="" className="icon" />
-            Admin Panel
+            <img src={BookIcon} alt="" className="icon" />
+            Teacher Portal
           </h2>
         </div>
 
         <nav className="sidebar-nav">
-          <p className="sidebar-nav-title">Quản lý</p>
+          <p className="sidebar-nav-title">Giảng dạy</p>
 
           <Link
-            to="/admin/dashboard"
-            className={`sidebar-link ${isActive("/admin/dashboard") ? "active" : ""}`}
+            to="/teacher/dashboard"
+            className={`sidebar-link ${isActive("/teacher/dashboard") ? "active" : ""}`}
           >
             <img src={DashboardIcon} alt="" className="icon" />
             Dashboard
           </Link>
 
           <Link
-            to="/admin/users"
-            className={`sidebar-link ${isActive("/admin/users") ? "active" : ""}`}
-          >
-            <img src={UsersIcon} alt="" className="icon" />
-            Quản lý Users
-          </Link>
-
-          <Link
-            to="/admin/roles"
-            className={`sidebar-link ${isActive("/admin/roles") ? "active" : ""}`}
-          >
-            <img src={LockIcon} alt="" className="icon" />
-            Quản lý Roles
-          </Link>
-
-          <Link
-            to="/admin/permissions"
-            className={`sidebar-link ${isActive("/admin/permissions") ? "active" : ""}`}
-          >
-            <img src={ShieldIcon} alt="" className="icon" />
-            Permissions
-          </Link>
-
-          <p className="sidebar-nav-title">Nội dung</p>
-
-          <Link
-            to="/admin/lessons"
-            className={`sidebar-link ${isActive("/admin/lessons") ? "active" : ""}`}
+            to="/teacher/lessons"
+            className={`sidebar-link ${isActive("/teacher/lessons") ? "active" : ""}`}
           >
             <img src={BookIcon} alt="" className="icon" />
-            Quản lý Lessons
+            Bài giảng của tôi
           </Link>
 
           <Link
-            to="/admin/courses"
-            className={`sidebar-link ${isActive("/admin/courses") ? "active" : ""}`}
+            to="/teacher/lessons/create"
+            className={`sidebar-link ${isActive("/teacher/lessons/create") ? "active" : ""}`}
+          >
+            <img src={PlusIcon} alt="" className="icon" />
+            Tạo bài giảng mới
+          </Link>
+
+          <p className="sidebar-nav-title">Khóa học</p>
+
+          <Link
+            to="/teacher/courses"
+            className={`sidebar-link ${isActive("/teacher/courses") ? "active" : ""}`}
           >
             <img src={GraduationIcon} alt="" className="icon" />
-            Quản lý Courses
+            Khóa học của tôi
+          </Link>
+
+          <Link
+            to="/teacher/students"
+            className={`sidebar-link ${isActive("/teacher/students") ? "active" : ""}`}
+          >
+            <img src={UsersIcon} alt="" className="icon" />
+            Học viên
           </Link>
         </nav>
       </aside>
 
       <div className="main-content">
         <header className="main-header">
-          <h3>Admin Dashboard</h3>
+          <h3>Teacher Portal</h3>
 
           <div className="header-actions">
             <span className="user-info">
