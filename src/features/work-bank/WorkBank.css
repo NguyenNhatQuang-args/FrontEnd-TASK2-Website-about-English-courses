@@ -1,0 +1,23 @@
+.work-bank {
+  max-width: 600px;
+  margin: 40px auto;
+  text-align: center;
+}
+
+.answer-box {
+  min-height: 40px;
+  border: 1px dashed #ccc;
+  margin-bottom: 20px;
+  padding: 10px;
+}
+
+.word-list button {
+  margin: 5px;
+  padding: 8px 12px;
+  cursor: pointer;
+}
+
+.check-btn {
+  margin-top: 20px;
+  padding: 10px 20px;
+}

@@ -1,30 +1,39 @@
-// API Constants
-export const API_BASE_URL = import.meta.env.VITE_API_BASE_URL || 'http://localhost:3000';
+export const API_BASE_URL =
+  import.meta.env.VITE_API_BASE_URL || 'http://localhost:3000'
 
 // App Constants
-export const APP_NAME = 'My App';
-export const APP_VERSION = '1.0.0';
+export const APP_NAME = 'My App'
+export const APP_VERSION = '1.0.0'
 
 // Pagination
-export const DEFAULT_PAGE_SIZE = 10;
-export const MAX_PAGE_SIZE = 100;
-
-// Local Storage Keys
-// export const STORAGE_KEYS = {
-//   ACCESS_TOKEN: 'access_token',
-//   REFRESH_TOKEN: 'refresh_token',
-//   USER_INFO: 'user_info',
-//   THEME: 'theme',
-// } as const;
+export const DEFAULT_PAGE_SIZE = 10
+export const MAX_PAGE_SIZE = 100
 
 // Routes
 export const ROUTES = {
+  // public
   HOME: '/',
   LOGIN: '/login',
   REGISTER: '/register',
-  DASHBOARD: '/dashboard',
-  PROFILE: '/profile',
-} as const;
+
+  // user base
+  USER: '/user',
+
+  // user dashboard
+  DASHBOARD: '/user/dashboard',
+  PROFILE: '/user/profile',
+
+  // lessons
+  USER_LESSON_DETAIL: (lessonId: string) =>
+    `/user/lessons/${lessonId}`,
+
+  // exercises
+  USER_SENTENCE_BUILDER: (lessonId: string) =>
+    `/user/lessons/${lessonId}/sentence-builder`,
+
+  USER_WORKBANK: (lessonId: string) =>
+    `/user/lessons/${lessonId}/work-bank`,
+} as const
 
 // HTTP Status
 export const HTTP_STATUS = {
@@ -35,4 +44,4 @@ export const HTTP_STATUS = {
   FORBIDDEN: 403,
   NOT_FOUND: 404,
   INTERNAL_SERVER_ERROR: 500,
-} as const;
+} as const

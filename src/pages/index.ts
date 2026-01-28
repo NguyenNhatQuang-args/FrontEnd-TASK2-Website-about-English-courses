@@ -10,3 +10,4 @@ export { default as Classes } from "./admin/Classes";
 export { default as LessonDetails } from "./admin/lessons/LessonDetails";
 export { default as Lessons } from "./admin/lessons/Lessons";
 export { Login } from './Login';
+export * from './user';
